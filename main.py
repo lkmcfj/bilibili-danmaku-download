@@ -50,6 +50,7 @@ def main():
     if not check_arguments(args):
         sys.exit()
     
+    print('Collecting information')
     info = getinfo.get(args.type, args.id)
     if args.use_name:
         subdir = common.escape_filename(info.title)
@@ -67,6 +68,7 @@ def main():
     else:
         xml_list = [os.path.join(target_path, str(_ + 1) + '.xml') for _ in range(info.n)]
     url_list = [common.comments_url(cid) for cid in info.cid_list]
+    print('Downloading')
     common.download(url_list, xml_list)
     if args.use_name:
         info_json_filename = common.escape_filename(info.title + '.json')
