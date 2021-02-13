@@ -52,6 +52,8 @@ def main():
     
     print('Collecting information')
     info = getinfo.get(args.type, args.id)
+    print('Title:', info.title)
+    print('Video number:', info.n)
     if args.use_name:
         subdir = common.escape_filename(info.title)
     else:
