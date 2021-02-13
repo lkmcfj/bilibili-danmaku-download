@@ -1,4 +1,4 @@
-from bilibili_api import bangumi
+from bilibili_api import bangumi, video
 
 class Information:
     
@@ -14,9 +14,53 @@ class Information:
         self.title_list.append(title)
 
 def get_bv(bvid):
-    pass
+    info = video.get_video_info(bvid=bvid)
+    result = Information(info['title'])
+    pages = info['pages']
+    for page in pages:
+        result.add_episode(page['cid'], page['part'])
+    save_info = {
+        'type': 'video',
+        'aid': info['aid'],
+        'bvid': info['bvid'],
+        'title': info['title'],
+        'cover': info['pic'],
+        'username': info['owner']['name'],
+        'user-avatar': info['owner']['face'],
+        'pages': []
+    }
+    for page in pages:
+        save_info['pages'].append({
+            'cid': page['cid'],
+            'title': page['part']
+        })
+    result.save_info = save_info
+    return result
+
 def get_av(aid):
-    pass
+    info = video.get_video_info(aid=aid)
+    result = Information(info['title'])
+    pages = info['pages']
+    for page in pages:
+        result.add_episode(page['cid'], page['part'])
+    save_info = {
+        'type': 'video',
+        'aid': info['aid'],
+        'bvid': info['bvid'],
+        'title': info['title'],
+        'cover': info['pic'],
+        'username': info['owner']['name'],
+        'user-avatar': info['owner']['face'],
+        'pages': []
+    }
+    for page in pages:
+        save_info['pages'].append({
+            'cid': page['cid'],
+            'title': page['part']
+        })
+    result.save_info = save_info
+    return result
+
 def get_md(media_id):
     media_id = int(media_id)
     meta = bangumi.get_meta(media_id=media_id)
