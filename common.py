@@ -6,7 +6,7 @@ REPLACE = '_'
 def escape_filename(s):
     for ch in FORBID:
         s = s.replace(ch, REPLACE)
-    return s
+    return s.strip()
 
 def comments_url(cid):
     return f'https://comment.bilibili.com/{cid}.xml'
