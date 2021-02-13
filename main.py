@@ -72,10 +72,11 @@ def main():
     url_list = [common.comments_url(cid) for cid in info.cid_list]
     print('Downloading')
     common.download(url_list, xml_list)
-    if args.use_name:
-        info_json_filename = common.escape_filename(info.title + '.json')
-    else:
-        info_json_filename = args.type + args.id + '.json'
-    with open(os.path.join(target_path, info_json_filename), 'w', encoding='utf-8') as info_f:
-        json.dump(info.save_info, info_f, ensure_ascii=False, indent=4)
+    if args.save_info:
+        if args.use_name:
+            info_json_filename = common.escape_filename(info.title + '.json')
+        else:
+            info_json_filename = args.type + args.id + '.json'
+        with open(os.path.join(target_path, info_json_filename), 'w', encoding='utf-8') as info_f:
+            json.dump(info.save_info, info_f, ensure_ascii=False, indent=4)
     print('Complete.')
