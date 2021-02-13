@@ -34,16 +34,16 @@ def main():
         help='files will be saved in OUTPUT_PATH, or a new subdirectory in OUTPUT_PATH, depending on --mkdir argument. OUTPUT_PATH is default to working path'
     )
     parser.add_argument(
-        '--mkdir', action='store_true', default=True,
-        help='whether to make new subdirectory in OUTPUT_PATH, default to true'
+        '--mkdir', action='store_true', default=False,
+        help='make new subdirectory in OUTPUT_PATH'
     )
     parser.add_argument(
         '--use-name', action='store_true', default=False,
-        help='whether to use video name as the name of subdirectory, video parts and episodes, default to false'
+        help='use video title as the name of subdirectory, video parts and episodes'
     )
     parser.add_argument(
-        '--save-info', action='store_true', default=True,
-        help='whether to create a json file containing video information, default to true'
+        '--save-info', action='store_true', default=False,
+        help='create a json file containing video information'
     )
 
     args = parser.parse_args()
