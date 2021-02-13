@@ -66,7 +66,7 @@ def main():
         target_path = args.output
 
     if args.use_name:
-        xml_list = [os.path.join(target_path, common.escape_filename(f'{i+1}. {title}.xml')) for i, title in enumerate(info.title_list)]
+        xml_list = [os.path.join(target_path, common.escape_filename(f'{i+1}.{title}.xml')) for i, title in enumerate(info.title_list)]
     else:
         xml_list = [os.path.join(target_path, str(_ + 1) + '.xml') for _ in range(info.n)]
     url_list = [common.comments_url(cid) for cid in info.cid_list]
