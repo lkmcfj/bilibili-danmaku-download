@@ -1,3 +1,4 @@
+import asyncio
 from bilibili_api import bangumi, video
 
 class Information:
@@ -13,8 +14,8 @@ class Information:
         self.cid_list.append(cid)
         self.title_list.append(title)
 
-def get_bv(bvid):
-    info = video.get_video_info(bvid=bvid)
+async def get_bv(bvid):
+    info = await video.get_video_info(bvid=bvid)
     result = Information(info['title'])
     pages = info['pages']
     for page in pages:
@@ -37,8 +38,8 @@ def get_bv(bvid):
     result.save_info = save_info
     return result
 
-def get_av(aid):
-    info = video.get_video_info(aid=aid)
+async def get_av(aid):
+    info = await video.get_video_info(aid=aid)
     result = Information(info['title'])
     pages = info['pages']
     for page in pages:
@@ -61,13 +62,14 @@ def get_av(aid):
     result.save_info = save_info
     return result
 
-def get_md(media_id):
+async def get_md(media_id):
     media_id = int(media_id)
-    meta = bangumi.get_meta(media_id=media_id)
+    meta = await bangumi.get_meta(media_id=media_id)
     season_id = meta['media']['season_id']
-    collective_info = bangumi.get_collective_info(season_id=season_id)
+    collective_info = await bangumi.get_episode_list(season_id=season_id)
+    episodes = collective_info['main_section']['episodes']
     result = Information(meta['media']['title'])
-    for episode in collective_info['episodes']:
+    for episode in episodes:
         result.add_episode(episode['cid'], episode['long_title'])
     save_info = {
         'type': 'bangumi',
@@ -78,10 +80,9 @@ def get_md(media_id):
         'content_type': meta['media']['type_name'],
         'episodes': []
     }
-    for episode in collective_info['episodes']:
+    for episode in episodes:
         episode_info = {
             'aid': episode['aid'],
-            'bvid': episode['bvid'],
             'cid': episode['cid'],
             'epid': episode['id'],
             'cover': episode['cover'],
@@ -91,10 +92,11 @@ def get_md(media_id):
     result.save_info = save_info
     return result
 
-def get(video_type, video_id):
+async def get(video_type, video_id):
     if video_type == 'BV':
-        return get_bv(video_id)
+        return await get_bv(video_id)
     elif video_type == 'av':
-        return get_av(video_id)
+        return await get_av(video_id)
     else: # md
-        return get_md(video_id)
+        assert video_type == 'md'
+        return await get_md(video_id)

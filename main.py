@@ -2,6 +2,7 @@ import sys
 import os
 import argparse
 import json
+import asyncio
 import bilibili_api
 import getinfo, common
 
@@ -51,7 +52,7 @@ def main():
         sys.exit()
     
     print('Collecting information')
-    info = getinfo.get(args.type, args.id)
+    info = asyncio.run(getinfo.get(args.type, args.id))
     print('Title:', info.title)
     print('Video number:', info.n)
     if args.use_name:
