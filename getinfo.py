@@ -64,9 +64,10 @@ async def get_av(aid):
 
 async def get_md(media_id):
     media_id = int(media_id)
-    meta = await bangumi.get_meta(media_id=media_id)
+    b = bangumi.Bangumi(media_id=media_id)
+    meta = await b.get_meta()
     season_id = meta['media']['season_id']
-    collective_info = await bangumi.get_episode_list(season_id=season_id)
+    collective_info = await b.get_episode_list()
     episodes = collective_info['main_section']['episodes']
     result = Information(meta['media']['title'])
     for episode in episodes:
