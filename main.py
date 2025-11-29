@@ -61,8 +61,8 @@ def main():
         subdir = args.type + args.id
     if args.mkdir:
         target_path = os.path.join(args.output, subdir)
-        if not os.path.isdir(target_path):
-            os.mkdir(target_path)
+        assert not os.path.isdir(target_path)
+        os.mkdir(target_path)
     else:
         target_path = args.output
 
