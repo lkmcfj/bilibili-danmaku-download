@@ -22,5 +22,7 @@ def download(url_list, filename_list):
     for url, filename in zip(url_list, filename_list):
         time.sleep(DELAY)
         res = sess.get(url)
+        assert res.ok
+        assert res.status_code == 200
         with open(filename, 'wb') as f:
             f.write(res.content)
