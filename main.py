@@ -13,7 +13,7 @@ def check_arguments(args):
     if args.type is None:
         print('specify video id type through --type TYPE')
         return False
-    if (args.type != 'BV') and (args.type != 'av') and (args.type != 'md'):
+    if (args.type != 'BV') and (args.type != 'av') and (args.type != 'md') and (args.type != 'ssid'):
         print('invalid argument TYPE')
         return False
     if not os.path.isdir(args.output):
@@ -28,7 +28,7 @@ def main():
         help='use a BV number, av number or bangumi media id to specify target video')
     parser.add_argument(
         '-t', '--type', metavar='TYPE',
-        help='TYPE=BV/av/md'
+        help='TYPE=BV/av/md/ssid'
     )
     parser.add_argument(
         '-o', '--output', metavar='OUTPUT_PATH', default='.',

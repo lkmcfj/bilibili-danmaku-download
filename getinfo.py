@@ -62,11 +62,10 @@ async def get_av(aid):
     result.save_info = save_info
     return result
 
-async def get_md(media_id):
-    media_id = int(media_id)
-    b = bangumi.Bangumi(media_id=media_id)
+async def get_bangumi(b):
     meta = await b.get_meta()
     season_id = meta['media']['season_id']
+    media_id = meta['media']['media_id']
     collective_info = await b.get_episode_list()
     episodes = collective_info['main_section']['episodes']
     result = Information(meta['media']['title'])
@@ -98,6 +97,8 @@ async def get(video_type, video_id):
         return await get_bv(video_id)
     elif video_type == 'av':
         return await get_av(video_id)
-    else: # md
-        assert video_type == 'md'
-        return await get_md(video_id)
+    elif video_type == 'md':
+        return await get_bangumi(bangumi.Bangumi(media_id=int(video_id)))
+    else: # ssid
+        assert video_type == 'ssid'
+        return await get_bangumi(bangumi.Bangumi(ssid=int(video_id)))
